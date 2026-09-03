@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Secured | THE GRIND.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .success-container {
+            min-height: 80vh;
+            background: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .success-card {
+            padding: 60px;
+            background: #0a0a0a;
+            border: 1px solid #111;
+            border-radius: 15px;
+            max-width: 500px;
+        }
+        .success-icon {
+            font-size: 4rem;
+            color: #00ff00;
+            margin-bottom: 20px;
+        }
+        .btn-dash {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: var(--gold, #C4A484);
+            color: #000;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header-container"></div>
+
+    <div class="success-container">
+        <div class="success-card">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h2 style="color: white; margin-bottom: 10px;">Booking Secured</h2>
+            <p style="color: #888;" id="success-message">Your booking has been processed.</p>
+            
+            <a href="profile.html" class="btn-dash">View My Dashboard</a>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const msg = localStorage.getItem('booking_success');
+            if (msg) {
+                document.getElementById('success-message').innerText = msg;
+                localStorage.removeItem('booking_success');
+            }
+        });
+    </script>
+</body>
+</html>

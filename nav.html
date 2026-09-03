@@ -1,0 +1,177 @@
+<style>
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 8%;
+        background: #000;
+        position: sticky;
+        top: 0;
+        z-index: 1001;
+        border-bottom: 1px solid #111;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: #fff;
+        letter-spacing: 2px;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--gold, #C4A484); }
+
+    .tracker-link {
+        color: var(--gold, #C4A484) !important;
+        border: 1px solid var(--gold, #C4A484);
+        padding: 6px 12px !important;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(196, 164, 132, 0.05);
+    }
+
+    .live-dot {
+        width: 8px;
+        height: 8px;
+        background: #00ff00;
+        border-radius: 50%;
+        animation: pulse-green 1.5s infinite;
+    }
+
+    @keyframes pulse-green {
+        0% { box-shadow: 0 0 0 0px rgba(0, 255, 0, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); }
+        100% { box-shadow: 0 0 0 0px rgba(0, 255, 0, 0); }
+    }
+
+    .nav-avatar {
+        width: 35px;
+        height: 35px;
+        background: var(--gold, #C4A484);
+        color: #000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 0.85rem;
+        transition: 0.3s;
+    }
+
+    .nav-avatar:hover {
+        transform: scale(1.1);
+        filter: brightness(1.1);
+    }
+
+    .logout-icon {
+        color: #888 !important; 
+        font-size: 1.2rem;
+        padding-left: 15px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        line-height: 1;
+    }
+
+    .logout-icon:hover { 
+        color: #ff4444 !important; 
+        transform: scale(1.1); 
+    }
+
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        z-index: 1002;
+    }
+
+    .bar { width: 25px; height: 2px; background: #fff; transition: 0.3s; }
+
+    @media screen and (max-width: 992px) {
+        .menu-toggle { display: flex; }
+
+        .nav-links {
+            position: fixed;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            flex-direction: column;
+            padding: 100px 0 50px 0;
+            transition: all 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+            border-bottom: 2px solid var(--gold, #C4A484);
+        }
+
+        .nav-links.active { top: 0; }
+        .nav-links li { margin: 15px 0; }
+        .nav-links a { font-size: 1.1rem; }
+
+        .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+        .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    }
+</style>
+
+<nav>
+    <a href="index.html" class="logo">THE GRIND.</a>
+    
+    <div class="menu-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
+
+    <ul class="nav-links" id="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="workspace.html">Workspace</a></li>
+        <li><a href="hire-me.html">Hire Me</a></li>
+        <li><a href="contact.html">Contact</a></li>
+
+        <li class="auth-logged-in" style="display: none;">
+            <a href="tracker.html" class="tracker-link" title="Track Active Order">
+                <span class="live-dot"></span>
+                Tracker
+            </a>
+        </li>
+
+        <li class="auth-logged-in" style="display: none;">
+            <a href="profile.html" title="My Profile">
+                <div class="nav-avatar" id="userInitial">U</div>
+            </a>
+        </li>
+
+        <li class="auth-logged-in" style="display: none;">
+            <a href="#" onclick="logoutUser()" class="logout-icon" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </li>
+
+        <li class="auth-logged-out">
+            <a href="login.html" style="color: var(--gold, #C4A484) !important;">Login</a>
+        </li>
+    </ul>
+</nav>

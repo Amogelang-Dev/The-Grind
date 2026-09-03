@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Failed | THE GRIND.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .error-container {
+            min-height: 80vh;
+            background: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .error-card {
+            padding: 60px;
+            background: #0a0a0a;
+            border: 1px solid #200;
+            border-radius: 15px;
+            max-width: 500px;
+        }
+        .error-icon {
+            font-size: 4rem;
+            color: #ff4444;
+            margin-bottom: 20px;
+        }
+        .btn-retry {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: transparent;
+            color: white;
+            border: 1px solid #444;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn-retry:hover {
+            border-color: var(--gold, #C4A484);
+            color: var(--gold, #C4A484);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header-container"></div>
+
+    <div class="error-container">
+        <div class="error-card">
+            <i class="fas fa-exclamation-triangle error-icon"></i>
+            <h2 style="color: white; margin-bottom: 10px;">Booking Failed</h2>
+            <p style="color: #888;">We couldn't process your request. This could be due to a connection timeout or the selected date being at capacity.</p>
+            
+            <a href="workspace.html" class="btn-retry">Try Again</a>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+</body>
+</html>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Management Dashboard | THE GRIND.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-black: #000000;
+            --panel-bg: #0a0a0a;
+            --panel-border: #1a1a1a;
+            --border-hover: #333333;
+            --gold: #C4A484;
+            --gold-hover: #b39171;
+            --text-main: #f0f0f0;
+            --text-muted: #888888;
+            --success: #2ecc71;
+            --success-glow: rgba(46, 204, 113, 0.15);
+            --warning: #e67e22;
+            --warning-glow: rgba(230, 126, 34, 0.15);
+            --danger: #e74c3c;
+            --danger-glow: rgba(231, 76, 60, 0.15);
+            --font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Top Bar Navigation */
+        .admin-nav {
+            background-color: var(--panel-bg);
+            border-bottom: 1px solid var(--panel-border);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo i {
+            color: var(--gold);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-right: 1px solid var(--panel-border);
+            padding-right: 20px;
+        }
+
+        .admin-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--bg-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* Container Layout */
+        .dashboard-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 24px;
+            width: 100%;
+            flex: 1;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .dashboard-title h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .dashboard-title p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 4px;
+        }
+
+        /* Stat Metrics Bar */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .metric-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            padding: 20px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: border-color 0.2s ease;
+        }
+
+        .metric-card:hover {
+            border-color: var(--border-hover);
+        }
+
+        .metric-info p {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .metric-info h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 4px;
+        }
+
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            background: rgba(196, 164, 132, 0.08);
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        /* Main Grid Structure */
+        .admin-container {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .admin-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .admin-box {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            padding: 24px;
+            border-radius: 6px;
+            margin-bottom: 24px;
+        }
+
+        .admin-title-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--panel-border);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .admin-title {
+            color: var(--gold);
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Filters & Table Controls */
+        .table-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--panel-border);
+            color: var(--text-muted);
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-family);
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* Table Design */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .order-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            text-align: left;
+        }
+
+        .order-table th {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--panel-border);
+        }
+
+        .order-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--panel-border);
+            color: var(--text-main);
+            font-size: 0.875rem;
+            vertical-align: middle;
+        }
+
+        .order-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .order-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .order-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Badges & Buttons */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background: var(--warning-glow);
+            color: var(--warning);
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+
+        .status-ready {
+            background: var(--success-glow);
+            color: var(--success);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .btn {
+            font-family: var(--font-family);
+            font-weight: 700;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--bg-black);
+            padding: 12px 20px;
+            width: 100%;
+        }
+
+        .btn-gold:hover {
+            background: var(--gold-hover);
+        }
+
+        .btn-ready {
+            background: transparent;
+            color: var(--success);
+            border: 1px solid var(--success);
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        .btn-ready:hover {
+            background: var(--success);
+            color: #ffffff;
+        }
+
+        .btn-ready:disabled {
+            border-color: var(--panel-border);
+            color: var(--text-muted);
+            background: transparent;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn-delete {
+            background: transparent;
+            color: var(--danger);
+            border: 1px solid var(--panel-border);
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+
+        .btn-delete:hover {
+            background: var(--danger-glow);
+            border-color: var(--danger);
+        }
+
+        .btn-logout {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--panel-border);
+            padding: 8px 14px;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* Forms & Catalog */
+        .admin-form-group {
+            margin-bottom: 20px;
+        }
+
+        .admin-form-group label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .admin-form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--bg-black);
+            border: 1px solid var(--panel-border);
+            color: #ffffff;
+            border-radius: 4px;
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .admin-form-group input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .catalog-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .catalog-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: var(--bg-black);
+            border: 1px solid var(--panel-border);
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .catalog-item-info span {
+            color: var(--gold);
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        /* Toast Notifications */
+        .alert {
+            background: var(--success-glow);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 14px 18px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: none;
+            margin-bottom: 24px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            color: var(--panel-border);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="admin-nav">
+        <div class="brand-logo">
+            <i class="fas fa-mug-hot"></i> THE GRIND.
+        </div>
+        <div class="nav-actions">
+            <div class="admin-profile">
+                <div class="admin-avatar">A</div>
+                <span>Store Admin</span>
+            </div>
+            <button class="btn btn-logout" onclick="logoutAdmin()">
+                <i class="fas fa-sign-out-alt"></i> Exit
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="dashboard-wrapper">
+        
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <h1>Store Management</h1>
+                <p>Monitor live orders, queue statuses, and catalog configurations.</p>
+            </div>
+            <button class="filter-btn" onclick="clearCompletedOrders()" style="padding: 8px 12px;">
+                <i class="fas fa-broom"></i> Clear Ready Orders
+            </button>
+        </div>
+
+        <div id="alertBox" class="alert"></div>
+
+        <!-- System Stats Bar -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-info">
+                    <p>Total Orders</p>
+                    <h3 id="metricTotal">0</h3>
+                </div>
+                <div class="metric-icon"><i class="fas fa-receipt"></i></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-info">
+                    <p>Pending Queue</p>
+                    <h3 id="metricPending">0</h3>
+                </div>
+                <div class="metric-icon" style="color: var(--warning);"><i class="fas fa-clock"></i></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-info">
+                    <p>Ready for Pickup</p>
+                    <h3 id="metricReady">0</h3>
+                </div>
+                <div class="metric-icon" style="color: var(--success);"><i class="fas fa-check-circle"></i></div>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <main class="admin-container">
+            
+            <!-- Queue Section -->
+            <section class="admin-box">
+                <div class="admin-title-wrap">
+                    <h2 class="admin-title"><i class="fas fa-stream"></i> Order Fulfillment</h2>
+                    <div class="table-controls">
+                        <button class="filter-btn active" onclick="filterOrders('all', this)">All</button>
+                        <button class="filter-btn" onclick="filterOrders('pending', this)">Pending</button>
+                        <button class="filter-btn" onclick="filterOrders('ready', this)">Ready</button>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Item</th>
+                                <th>Payment</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <!-- Injected Dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Menu Update Sidebar Section -->
+            <aside>
+                <section class="admin-box">
+                    <div class="admin-title-wrap">
+                        <h2 class="admin-title"><i class="fas fa-folder-plus"></i> Add Menu Item</h2>
+                    </div>
+                    <form id="addMenuForm">
+                        <div class="admin-form-group">
+                            <label for="newItemName">Item Name</label>
+                            <input type="text" id="newItemName" placeholder="e.g. Iced Vanilla Latte" required autocomplete="off">
+                        </div>
+                        
+                        <div class="admin-form-group">
+                            <label for="newItemPrice">Price (ZAR)</label>
+                            <input type="number" step="0.01" min="0" id="newItemPrice" placeholder="35.00" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-gold">
+                            <i class="fas fa-plus"></i> Add to Menu Catalog
+                        </button>
+                    </form>
+                </section>
+
+                <section class="admin-box">
+                    <div class="admin-title-wrap">
+                        <h2 class="admin-title"><i class="fas fa-list"></i> Menu Catalog</h2>
+                    </div>
+                    <ul id="catalogList" class="catalog-list">
+                        <!-- Dynamically Injected -->
+                    </ul>
+                </section>
+            </aside>
+            
+        </main>
+    </div>
+
+    <script>
+        const initialOrders = [
+            { id: 101, customer_name: "John Doe", item_name: "Espresso", payment_method: "Card", status: "Pending" },
+            { id: 102, customer_name: "Jane Smith", item_name: "Cappuccino", payment_method: "Cash", status: "Ready" }
+        ];
+
+        let currentFilter = 'all';
+
+        function getOrders() {
+            const stored = localStorage.getItem('active_orders');
+            return stored ? JSON.parse(stored) : initialOrders;
+        }
+
+        function showAlert(msg) {
+            const box = document.getElementById('alertBox');
+            box.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+            box.style.display = "block";
+            setTimeout(() => { box.style.display = "none"; }, 4000);
+        }
+
+        function updateMetrics(orders) {
+            document.getElementById('metricTotal').innerText = orders.length;
+            document.getElementById('metricPending').innerText = orders.filter(o => o.status.toLowerCase() === 'pending').length;
+            document.getElementById('metricReady').innerText = orders.filter(o => o.status.toLowerCase() === 'ready').length;
+        }
+
+        function renderOrders() {
+            const orders = getOrders();
+            updateMetrics(orders);
+            
+            const tbody = document.getElementById('ordersTableBody');
+            tbody.innerHTML = '';
+
+            const filteredOrders = orders.filter(order => {
+                if (currentFilter === 'pending') return order.status.toLowerCase() === 'pending';
+                if (currentFilter === 'ready') return order.status.toLowerCase() === 'ready';
+                return true;
+            });
+
+            if (filteredOrders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <p>No orders found matching the filter.</p>
+                            </div>
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            filteredOrders.forEach(order => {
+                const isReady = order.status.toLowerCase() === 'ready';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>#${order.id}</strong></td>
+                    <td>${escapeHtml(order.customer_name)}</td>
+                    <td>${escapeHtml(order.item_name)}</td>
+                    <td><span style="color: var(--text-muted);">${escapeHtml(order.payment_method)}</span></td>
+                    <td>
+                        <span class="status-badge status-${order.status.toLowerCase()}">
+                            <i class="fas fa-${isReady ? 'check' : 'spinner fa-spin'}"></i>
+                            ${order.status}
+                        </span>
+                    </td>
+                    <td style="text-align: right; display: flex; gap: 8px; justify-content: flex-end;">
+                        <button class="btn btn-ready" ${isReady ? 'disabled' : ''} onclick="markReady(${order.id})">
+                            <i class="fas fa-check"></i> ${isReady ? 'Ready' : 'Mark Ready'}
+                        </button>
+                        <button class="btn btn-delete" onclick="deleteOrder(${order.id})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function markReady(orderId) {
+            let orders = getOrders();
+            orders = orders.map(o => o.id === orderId ? {...o, status: 'Ready'} : o);
+            localStorage.setItem('active_orders', JSON.stringify(orders));
+            showAlert(`Order #${orderId} marked as READY.`);
+            renderOrders();
+        }
+
+        function deleteOrder(orderId) {
+            let orders = getOrders();
+            orders = orders.filter(o => o.id !== orderId);
+            localStorage.setItem('active_orders', JSON.stringify(orders));
+            showAlert(`Order #${orderId} has been removed.`);
+            renderOrders();
+        }
+
+        function filterOrders(status, btnElement) {
+            currentFilter = status;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            if(btnElement) btnElement.classList.add('active');
+            renderOrders();
+        }
+
+        function clearCompletedOrders() {
+            let orders = getOrders();
+            const pendingOrders = orders.filter(o => o.status.toLowerCase() !== 'ready');
+            localStorage.setItem('active_orders', JSON.stringify(pendingOrders));
+            showAlert("Cleared all completed orders from the view.");
+            renderOrders();
+        }
+
+        function renderCatalog() {
+            const catalogList = document.getElementById('catalogList');
+            const menu = JSON.parse(localStorage.getItem('menu_items') || '[]');
+            catalogList.innerHTML = '';
+
+            if (menu.length === 0) {
+                catalogList.innerHTML = '<li class="empty-state" style="padding: 10px 0;"><p style="font-size: 0.8rem;">No items in custom catalog.</p></li>';
+                return;
+            }
+
+            menu.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = 'catalog-item';
+                li.innerHTML = `
+                    <div class="catalog-item-info">
+                        ${escapeHtml(item.name)} <span>R${parseFloat(item.price).toFixed(2)}</span>
+                    </div>
+                    <button class="btn btn-delete" style="padding: 4px 8px;" onclick="removeCatalogItem(${index})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                catalogList.appendChild(li);
+            });
+        }
+
+        function removeCatalogItem(index) {
+            let menu = JSON.parse(localStorage.getItem('menu_items') || '[]');
+            menu.splice(index, 1);
+            localStorage.setItem('menu_items', JSON.stringify(menu));
+            renderCatalog();
+            showAlert("Item removed from catalog.");
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        document.getElementById('addMenuForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('newItemName');
+            const priceInput = document.getElementById('newItemPrice');
+            
+            const name = nameInput.value.trim();
+            const price = parseFloat(priceInput.value);
+
+            if (name && price > 0) {
+                let menu = JSON.parse(localStorage.getItem('menu_items') || '[]');
+                menu.push({ name, price });
+                localStorage.setItem('menu_items', JSON.stringify(menu));
+                
+                showAlert(`Added '${escapeHtml(name)}' (R${price.toFixed(2)}) to the store menu catalog.`);
+                this.reset();
+                renderCatalog();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderOrders();
+            renderCatalog();
+            // Polling interval to automatically reflect active changes from storefront submissions
+            setInterval(renderOrders, 5000);
+        });
+
+        (function protectAdminPage() {
+            const isAdminAuthenticated = localStorage.getItem('admin_authenticated');
+            if (isAdminAuthenticated !== 'true') {
+                // Kept for production protection context
+            }
+        })();
+
+        function logoutAdmin() {
+            localStorage.removeItem('admin_authenticated');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

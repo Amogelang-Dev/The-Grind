@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join The Grind</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .register-section {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .register-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 50px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .register-card h2 {
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .register-card p.subtitle {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--gold, #C4A484);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            background: #111;
+            border: 1px solid #222;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--gold, #C4A484);
+            background: #151515;
+        }
+
+        .status-msg {
+            padding: 12px;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+
+        .error-msg {
+            color: #ff4444;
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.2);
+        }
+
+        .success-msg {
+            color: #00ff00;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 16px;
+            background: var(--gold, #C4A484);
+            color: #000;
+            border: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-register:hover {
+            background: #b39374;
+            transform: translateY(-2px);
+        }
+
+        .register-footer {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #555;
+        }
+
+        .register-footer a {
+            color: var(--gold, #C4A484);
+            text-decoration: none;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+<main class="register-section">
+    <div class="register-card">
+        <h2 class="gold-text">Join The Grind</h2>
+        <p class="subtitle">Become a member & earn loyalty points</p>
+
+        <div id="error-box" class="status-msg error-msg"></div>
+        <div id="success-box" class="status-msg success-msg"></div>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" placeholder="Amogelang Matlhaga" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="amo@thegrind.co.za" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a strong password" required>
+            </div>
+
+            <button type="submit" class="btn-register">Create Account</button>
+        </form>
+
+        <div class="register-footer">
+            Already a member? <a href="login.html">Login to your account</a>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const fullName = document.getElementById('full_name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const errorBox = document.getElementById('error-box');
+        const successBox = document.getElementById('success-box');
+
+        errorBox.style.display = 'none';
+        successBox.style.display = 'none';
+
+        if (!fullName || !email || !password) {
+            errorBox.textContent = 'Please fill in all fields.';
+            errorBox.style.display = 'block';
+            return;
+        }
+
+        // Check if user exists in client-side storage
+        const existingUsers = JSON.parse(localStorage.getItem('users') || '[]');
+        const userExists = existingUsers.some(u => u.email === email);
+
+        if (userExists) {
+            errorBox.textContent = 'This email is already registered.';
+            errorBox.style.display = 'block';
+        } else {
+            existingUsers.push({ fullName, email, password });
+            localStorage.setItem('users', JSON.stringify(existingUsers));
+
+            successBox.textContent = 'Account created! You can now login.';
+            successBox.style.display = 'block';
+            this.reset();
+        }
+    });
+</script>
+
+</body>
+</html>

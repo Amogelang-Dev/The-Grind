@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - The Grind</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Closed store banner styling */
+        .store-closed-banner {
+            background-color: #e74c3c;
+            color: #ffffff;
+            text-align: center;
+            padding: 12px 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            display: none;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    
+    <!-- Store Status Banner -->
+    <div id="closedBanner" class="store-closed-banner">
+        <i class="fas fa-store-slash"></i> The store is currently closed for orders. Please check back later!
+    </div>
+
+    <header class="hero menu-hero">
+        <h1>Our Menu</h1>
+        <p class="gold-text">CRAFTED COFFEE • SEASONAL CUISINE</p>
+    </header>
+
+    <section class="menu-section">
+
+        <div class="menu-filters">
+            <span class="filter-btn active" data-filter="all">All</span>
+            <span class="filter-btn" data-filter="Hot Drinks">Coffee</span>
+            <span class="filter-btn" data-filter="Food">Breakfast</span>
+            <span class="filter-btn" data-filter="Cold Drinks">Cold Brews</span>
+        </div>
+
+        <div class="menu-grid" id="menu-grid">
+        </div>
+    </section>
+
+    <script>
+    const defaultProducts = [
+        // Hot Drinks
+        { id: 1, name: "Flat White", category: "Hot Drinks", price: 45.00, description: "Smooth espresso blended with velvety steamed milk.", image: "images/flat-white.jpeg" },
+        { id: 2, name: "Cortado", category: "Hot Drinks", price: 40.00, description: "Equal parts espresso and warm silky milk.", image: "images/cortado.jpeg" },
+        { id: 3, name: "Americano", category: "Hot Drinks", price: 35.00, description: "Rich espresso shots topped with hot water.", image: "images/americano.jpeg" },
+        { id: 4, name: "Cappuccino", category: "Hot Drinks", price: 42.00, description: "Espresso with equal parts steamed milk and deep foam layer.", image: "images/cuppacino.jpeg" },
+
+        // Cold Drinks
+        { id: 5, name: "Nitro Cold Brew", category: "Cold Drinks", price: 50.00, description: "Cold brewed coffee charged with nitrogen.", image: "images/flat-white.jpeg" },
+        { id: 6, name: "Iced Latte", category: "Cold Drinks", price: 45.00, description: "Chilled espresso over milk and ice.", image: "images/iced-latte.jpeg" },
+
+        // Food
+        { id: 7, name: "Artisanal Croissant", category: "Food", price: 35.00, description: "Flaky butter croissant baked fresh daily.", image: "images/shakshuka.jpeg" },
+        { id: 8, name: "Avocado Toast", category: "Food", price: 65.00, description: "Smashed avocado on toasted sourdough with seeds.", image: "images/smashed-avocado-toast.jpeg" }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderMenu();
+        setupFilters();
+        checkStoreAvailability();
+
+        // Fetch and load navigation bar
+        fetch('nav.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to load nav.html');
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+                initHeaderScript();
+            })
+            .catch(error => {
+                console.error('Navigation error:', error);
+                document.getElementById('header-placeholder').innerHTML = 
+                    '<div style="color: #ff4444; padding: 15px; text-align: center; background: #111;">' +
+                    'Navigation failed to load. Run with a Live Server to resolve cross-origin policies.' +
+                    '</div>';
+            });
+    });
+
+    // Merge default products with admin catalog additions from LocalStorage
+    function getCombinedProducts() {
+        const customItems = JSON.parse(localStorage.getItem('menu_items') || '[]');
+        const formattedCustomItems = customItems.map((item, idx) => ({
+            id: `custom-${idx}`,
+            name: item.name,
+            category: "Hot Drinks",
+            price: parseFloat(item.price),
+            description: "Freshly added special menu item.",
+            image: "images/americano.jpeg"
+        }));
+        return [...defaultProducts, ...formattedCustomItems];
+    }
+
+    // 1. Render Menu Function
+    function renderMenu() {
+        const container = document.getElementById('menu-grid');
+        if (!container) return;
+
+        const products = getCombinedProducts();
+
+        container.innerHTML = products.map(product => {
+            const productName = encodeURIComponent(product.name);
+
+            return `
+            <div class='menu-card' data-category='${product.category}'>
+                <div class='menu-image' style='background-image: url("${product.image}"); background-size: cover; background-position: center;'></div>
+                <div class='menu-info'>
+                    <div class='menu-title-row'>
+                        <h3>${product.name}</h3>
+                        <span class='price'>R ${product.price.toFixed(2)}</span>
+                    </div>
+                    <p>${product.description}</p>
+                    
+                    <div style='display: flex; justify-content: space-between; align-items: center; margin-top: 15px;'>
+                        <span class='tag'>${product.category}</span>
+                        <a href='order.html?item=${productName}&price=${product.price}' class='btn-text btn-add-to-cart' style='color: var(--gold, #C4A484); text-decoration: none; font-weight: 600;'>Order Now →</a>
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+
+        checkStoreAvailability();
+    }
+
+    // 2. Filter Functionality
+    function setupFilters() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const selectedCategory = btn.getAttribute('data-filter');
+                const cards = document.querySelectorAll('.menu-card');
+
+                cards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+
+                    if (selectedCategory === 'all' || cardCategory === selectedCategory) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+
+    // 3. Store Availability Controls
+    function checkStoreAvailability() {
+        const status = localStorage.getItem('store_status') || 'OPEN';
+        const orderButtons = document.querySelectorAll('.btn-add-to-cart, .btn-checkout');
+        const closedBanner = document.getElementById('closedBanner');
+
+        if (status === 'CLOSED') {
+            orderButtons.forEach(btn => {
+                btn.removeAttribute('href');
+                btn.style.opacity = '0.5';
+                btn.style.cursor = 'not-allowed';
+                btn.style.pointerEvents = 'none';
+                btn.innerText = 'Store Closed';
+            });
+            if (closedBanner) closedBanner.style.display = 'block';
+        } else {
+            orderButtons.forEach(btn => {
+                const card = btn.closest('.menu-card');
+                if (card) {
+                    const name = encodeURIComponent(card.querySelector('h3').innerText);
+                    const priceText = card.querySelector('.price').innerText.replace('R ', '');
+                    btn.setAttribute('href', `order.html?item=${name}&price=${priceText}`);
+                }
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+                btn.style.pointerEvents = 'auto';
+                btn.innerText = 'Order Now →';
+            });
+            if (closedBanner) closedBanner.style.display = 'none';
+        }
+    }
+
+    // Listen for real-time storage modifications across open tabs
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'store_status') checkStoreAvailability();
+        if (e.key === 'menu_items') renderMenu();
+    });
+
+    // 4. Header & Auth Controls
+    function initHeaderScript() {
+        const user = JSON.parse(localStorage.getItem('user_session') || 'null');
+        
+        const loggedInElems = document.querySelectorAll('.auth-logged-in');
+        const loggedOutElems = document.querySelectorAll('.auth-logged-out');
+
+        if (user && user.user_id) {
+            loggedInElems.forEach(el => el.style.display = 'block');
+            loggedOutElems.forEach(el => el.style.display = 'none');
+            
+            const initial = user.user_name ? user.user_name.charAt(0).toUpperCase() : 'U';
+            const userInitialEl = document.getElementById('userInitial');
+            if (userInitialEl) userInitialEl.innerText = initial;
+        } else {
+            loggedInElems.forEach(el => el.style.display = 'none');
+            loggedOutElems.forEach(el => el.style.display = 'block');
+        }
+
+        const menu = document.querySelector('#mobile-menu');
+        const navList = document.querySelector('#nav-list');
+
+        if (menu && navList) {
+            menu.addEventListener('click', () => {
+                menu.classList.toggle('is-active');
+                navList.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.remove('is-active');
+                    navList.classList.remove('active');
+                });
+            });
+        }
+    }
+
+    function logoutUser() {
+        localStorage.removeItem('user_session');
+        window.location.href = 'login.html';
+    }
+    </script>
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h2 class="footer-logo">THE GRIND.</h2>
+            <p class="footer-bio">
+                A premium coffee experience and collaborative workspace designed for those who grind with purpose.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h3 class="footer-heading">Social Media</h3>
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/27727548705" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-col">
+            <h3 class="footer-heading">Visit Us</h3>
+            <p>123 Coffee Lane, Sandton</p>
+            <p>info@thegrindcoffeecompany.co.za</p>
+        </div>
+
+        <div class="footer-col">
+            <h3 class="footer-heading">Project Credits</h3>
+            
+            <p class="dev-names">Lead Developers:</p>
+            <p>Amo Matlhaga & Kea Masole</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p align="center">&copy; <span id="currentYear"></span> THE GRIND COFFEE COMPANY. ALL RIGHTS RESERVED.</p>
+        <p align="center" style="color: var(--gold, #C4A484);">
+            <strong>SyreTech Solutions</strong> | 
+            <a href="admin.html" style="color: var(--gold, #C4A484);">Admin Panel</a>
+        </p>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('currentYear').innerText = new Date().getFullYear();
+
+    const menu = document.querySelector('#mobile-menu');
+    const menuLinks = document.querySelector('.nav-links');
+
+    if (menu && menuLinks) {
+        menu.addEventListener('click', function() {
+            menu.classList.toggle('is-active');
+            menuLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('is-active');
+                menuLinks.classList.remove('active');
+            });
+        });
+    }
+</script>
+</body>
+</html>
