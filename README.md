@@ -98,7 +98,8 @@ This project is open source and available under the [MIT License](LICENSE) (or u
 
 ## 👤 Author
 
-**Amogelang-Dev**
+**ST10355816 - Amogelang Matlhaga** <br >
+**ST10437711 - Keabetswe Masole**
 
 ---
 
