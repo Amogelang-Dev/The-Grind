@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barista & Staff Dashboard | THE GRIND.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-black: #000000;
+            --panel-bg: #0a0a0a;
+            --panel-border: #1a1a1a;
+            --border-hover: #333333;
+            --gold: #C4A484;
+            --gold-hover: #b39171;
+            --text-main: #f0f0f0;
+            --text-muted: #888888;
+            --success: #2ecc71;
+            --success-glow: rgba(46, 204, 113, 0.15);
+            --warning: #e67e22;
+            --warning-glow: rgba(230, 126, 34, 0.15);
+            --danger: #e74c3c;
+            --font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Top Navigation */
+        .emp-nav {
+            background-color: var(--panel-bg);
+            border-bottom: 1px solid var(--panel-border);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo i { color: var(--gold); }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .shift-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        .emp-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-right: 1px solid var(--panel-border);
+            padding-right: 20px;
+        }
+
+        .emp-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--bg-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 24px;
+            width: 100%;
+            flex: 1;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .dashboard-title h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .dashboard-title p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: 4px;
+        }
+
+        /* Metrics Bar */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .metric-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            padding: 20px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .metric-info p {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .metric-info h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 4px;
+        }
+
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            background: rgba(196, 164, 132, 0.08);
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        /* Main Workspace */
+        .emp-container {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .emp-container { grid-template-columns: 1fr; }
+        }
+
+        .emp-box {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            padding: 24px;
+            border-radius: 6px;
+            margin-bottom: 24px;
+        }
+
+        .emp-title-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--panel-border);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .emp-title {
+            color: var(--gold);
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Order Cards Grid (KDS Style) */
+        .kds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .kds-card {
+            background: var(--bg-black);
+            border: 1px solid var(--panel-border);
+            border-radius: 6px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .kds-card.pending { border-top: 4px solid var(--warning); }
+        .kds-card.ready { border-top: 4px solid var(--success); opacity: 0.6; }
+
+        .kds-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--panel-border);
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        .kds-id { font-weight: 800; font-size: 1.1rem; color: #fff; }
+        .kds-customer { color: var(--text-muted); font-size: 0.85rem; }
+
+        .kds-body { margin-bottom: 16px; }
+        .kds-item { font-size: 1.2rem; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+        .kds-pay { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+
+        /* Buttons & Controls */
+        .btn {
+            font-family: var(--font-family);
+            font-weight: 700;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            padding: 10px 16px;
+        }
+
+        .btn-gold { background: var(--gold); color: var(--bg-black); width: 100%; }
+        .btn-gold:hover { background: var(--gold-hover); }
+
+        .btn-success { background: var(--success); color: #fff; width: 100%; }
+        .btn-success:hover { background: #27ae60; }
+
+        .btn-logout { background: transparent; color: var(--text-muted); border: 1px solid var(--panel-border); padding: 8px 14px; }
+        .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+
+        /* Forms & Inputs */
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--bg-black);
+            border: 1px solid var(--panel-border);
+            color: #ffffff;
+            border-radius: 4px;
+            font-family: var(--font-family);
+            font-size: 0.85rem;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        /* Checklists */
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-bottom: 1px solid var(--panel-border);
+            font-size: 0.85rem;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            accent-color: var(--gold);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        /* Alert Toast */
+        .alert {
+            background: var(--success-glow);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 14px 18px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: none;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="emp-nav">
+        <div class="brand-logo">
+            <i class="fas fa-mug-hot"></i> THE GRIND.
+        </div>
+        <div class="nav-actions">
+            <div class="shift-status">
+                <div class="pulse-dot"></div>
+                <span>Shift Active</span>
+            </div>
+            <div class="emp-profile">
+                <div class="emp-avatar">B</div>
+                <span>Barista Station</span>
+            </div>
+            <button class="btn btn-logout" onclick="logoutEmployee()">
+                <i class="fas fa-sign-out-alt"></i> Exit
+            </button>
+        </div>
+    </nav>
+
+    <div class="dashboard-wrapper">
+        
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <h1>Barista Workstation</h1>
+                <p>Manage order preparation, stock levels, and daily shift tasks.</p>
+            </div>
+            <div style="font-weight: 700; color: var(--gold); font-size: 1.1rem;" id="liveClock">00:00:00 AM</div>
+        </div>
+
+        <div id="alertBox" class="alert"></div>
+
+        <!-- Metrics Bar -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-info">
+                    <p>Orders to Prepare</p>
+                    <h3 id="metricPending">0</h3>
+                </div>
+                <div class="metric-icon" style="color: var(--warning);"><i class="fas fa-fire"></i></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-info">
+                    <p>Completed This Shift</p>
+                    <h3 id="metricCompleted">0</h3>
+                </div>
+                <div class="metric-icon" style="color: var(--success);"><i class="fas fa-check-double"></i></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-info">
+                    <p>Shift Duration</p>
+                    <h3>3h 45m</h3>
+                </div>
+                <div class="metric-icon"><i class="fas fa-hourglass-half"></i></div>
+            </div>
+        </div>
+
+        <!-- Main Workspace Grid -->
+        <main class="emp-container">
+            
+            <!-- Kitchen Display System (Active Prep Queue) -->
+            <section class="emp-box">
+                <div class="emp-title-wrap">
+                    <h2 class="emp-title"><i class="fas fa-concierge-bell"></i> Live Preparation Queue</h2>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">Auto-syncs with Store Queue</span>
+                </div>
+
+                <div class="kds-grid" id="kdsContainer">
+                    <!-- Orders dynamically injected -->
+                </div>
+            </section>
+
+            <!-- Sidebar Controls -->
+            <aside>
+                
+                <!-- Walk-in POS Quick Order -->
+                <section class="emp-box">
+                    <div class="emp-title-wrap">
+                        <h2 class="emp-title"><i class="fas fa-cash-register"></i> Walk-in Order</h2>
+                    </div>
+                    <form id="walkInForm">
+                        <div class="form-group">
+                            <label for="custName">Customer Name</label>
+                            <input type="text" id="custName" placeholder="e.g. Alex" required autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="itemSelect">Select Drink/Item</label>
+                            <select id="itemSelect" required>
+                                <option value="Espresso">Espresso</option>
+                                <option value="Cappuccino">Cappuccino</option>
+                                <option value="Iced Vanilla Latte">Iced Vanilla Latte</option>
+                                <option value="Cortado">Cortado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="payMethod">Payment Method</label>
+                            <select id="payMethod">
+                                <option value="Card">Card</option>
+                                <option value="Cash">Cash</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-gold">
+                            <i class="fas fa-paper-plane"></i> Send to Queue
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Inventory Stock Alert Form -->
+                <section class="emp-box">
+                    <div class="emp-title-wrap">
+                        <h2 class="emp-title"><i class="fas fa-exclamation-triangle"></i> Report Low Stock</h2>
+                    </div>
+                    <form id="stockAlertForm">
+                        <div class="form-group">
+                            <label for="stockItem">Ingredient / Item</label>
+                            <input type="text" id="stockItem" placeholder="e.g. Oat Milk, Espresso Beans" required>
+                        </div>
+                        <button type="submit" class="btn btn-gold" style="background: transparent; color: var(--warning); border: 1px solid var(--warning);">
+                            <i class="fas fa-bullhorn"></i> Alert Manager
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Shift Checklist -->
+                <section class="emp-box">
+                    <div class="emp-title-wrap">
+                        <h2 class="emp-title"><i class="fas fa-tasks"></i> Shift Checklist</h2>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="c1" checked>
+                        <label for="c1">Calibrate Espresso Grinders</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="c2" checked>
+                        <label for="c2">Sanitize Milk Wands</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="c3">
+                        <label for="c3">Restock Takeaway Cups & Lids</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="c4">
+                        <label for="c4">Wipe Down Prep Counters</label>
+                    </div>
+                </section>
+
+            </aside>
+        </main>
+    </div>
+
+    <script>
+    // --- SESSION SECURITY GUARD ---
+    function checkEmployeeAuth() {
+        const sessionRaw = localStorage.getItem('employee_session');
+        if (!sessionRaw) {
+            window.location.href = 'index.html';
+            return null;
+        }
+        try {
+            return JSON.parse(sessionRaw);
+        } catch(e) {
+            localStorage.removeItem('employee_session');
+            window.location.href = 'index.html';
+            return null;
+        }
+    }
+
+    const currentStaff = checkEmployeeAuth();
+
+    // Shared data state with the Admin panel
+    const defaultOrders = [
+        { id: 101, customer_name: "John Doe", item_name: "Espresso", payment_method: "Card", status: "Pending" },
+        { id: 102, customer_name: "Jane Smith", item_name: "Cappuccino", payment_method: "Cash", status: "Ready" }
+    ];
+
+    function getOrders() {
+        const stored = localStorage.getItem('active_orders');
+        return stored ? JSON.parse(stored) : defaultOrders;
+    }
+
+    function saveOrders(orders) {
+        localStorage.setItem('active_orders', JSON.stringify(orders));
+    }
+
+    function showAlert(msg) {
+        const box = document.getElementById('alertBox');
+        box.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+        box.style.display = "block";
+        setTimeout(() => { box.style.display = "none"; }, 3000);
+    }
+
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('liveClock').innerText = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function renderKDS() {
+        const orders = getOrders();
+        const container = document.getElementById('kdsContainer');
+        container.innerHTML = '';
+
+        const pendingOrders = orders.filter(o => o.status.toLowerCase() === 'pending');
+        const readyOrders = orders.filter(o => o.status.toLowerCase() === 'ready');
+
+        document.getElementById('metricPending').innerText = pendingOrders.length;
+        document.getElementById('metricCompleted').innerText = readyOrders.length;
+
+        if (orders.length === 0) {
+            container.innerHTML = `<p style="color: var(--text-muted); grid-column: 1/-1;">No orders in queue.</p>`;
+            return;
+        }
+
+        orders.forEach(order => {
+            const isReady = order.status.toLowerCase() === 'ready';
+            const card = document.createElement('div');
+            card.className = `kds-card ${isReady ? 'ready' : 'pending'}`;
+            card.innerHTML = `
+                <div>
+                    <div class="kds-header">
+                        <span class="kds-id">#${order.id}</span>
+                        <span class="kds-customer"><i class="fas fa-user"></i> ${escapeHtml(order.customer_name)}</span>
+                    </div>
+                    <div class="kds-body">
+                        <div class="kds-item">${escapeHtml(order.item_name)}</div>
+                        <div class="kds-pay">${escapeHtml(order.payment_method)}</div>
+                    </div>
+                </div>
+                <div>
+                    ${!isReady ? 
+                        `<button class="btn btn-success" onclick="completeOrder(${order.id})">
+                            <i class="fas fa-check"></i> Mark Ready
+                         </button>` : 
+                        `<span style="color: var(--success); font-size: 0.8rem; font-weight: 700;">
+                            <i class="fas fa-check-circle"></i> Ready for Pickup
+                         </span>`
+                    }
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function completeOrder(id) {
+        let orders = getOrders();
+        orders = orders.map(o => o.id === id ? { ...o, status: 'Ready' } : o);
+        saveOrders(orders);
+        showAlert(`Order #${id} marked as READY!`);
+        renderKDS();
+    }
+
+    // Walk-in order creation
+    document.getElementById('walkInForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('custName').value.trim();
+        const item = document.getElementById('itemSelect').value;
+        const pay = document.getElementById('payMethod').value;
+
+        const orders = getOrders();
+        const newId = orders.length > 0 ? Math.max(...orders.map(o => o.id)) + 1 : 101;
+
+        orders.push({
+            id: newId,
+            customer_name: name,
+            item_name: item,
+            payment_method: pay,
+            status: 'Pending'
+        });
+
+        saveOrders(orders);
+        showAlert(`Created Order #${newId} for ${name}`);
+        this.reset();
+        renderKDS();
+    });
+
+    // Stock alert notification handler
+    document.getElementById('stockAlertForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const item = document.getElementById('stockItem').value;
+        showAlert(`Low stock alert sent for: ${escapeHtml(item)}`);
+        this.reset();
+    });
+
+    function escapeHtml(str) {
+        return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function logoutEmployee() {
+        localStorage.removeItem('employee_session');
+        window.location.href = 'index.html';
+    }
+
+    // Sync data across tabs instantly
+    window.addEventListener('storage', () => renderKDS());
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (currentStaff) {
+            const avatarElem = document.querySelector('.emp-avatar');
+            const nameElem = document.querySelector('.emp-profile span');
+            if (avatarElem) avatarElem.innerText = currentStaff.name.charAt(0).toUpperCase();
+            if (nameElem) nameElem.innerText = currentStaff.name;
+        }
+        renderKDS();
+    });
+</script>
+</body>
+</html>

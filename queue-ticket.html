@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue Ticket - The Grind</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-black: #000000;
+            --card-bg: #0a0a0a;
+            --gold: #C4A484;
+            --gold-hover: #d4b494;
+            --gray-border: #1a1a1a;
+            --text-muted: #888888;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .workspace-scope {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            background: radial-gradient(circle at center, rgba(196, 164, 132, 0.04) 0%, rgba(0, 0, 0, 1) 100%);
+        }
+
+        /* Ticket Container */
+        .order-container {
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            border: 1px solid var(--gold);
+            padding: 50px 35px;
+            background: var(--card-bg);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(196, 164, 132, 0.05);
+            border-radius: 8px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .ticket-header h2 {
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .ticket-header p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .ticket-header p strong {
+            color: #ffffff;
+        }
+
+        /* Ticket Box Display */
+        .ticket-box {
+            background: #000000;
+            padding: 35px 20px;
+            margin: 30px 0;
+            border: 1px solid var(--gray-border);
+            position: relative;
+            border-radius: 6px;
+        }
+
+        /* Receipt Cutout Notch Effect */
+        .ticket-box::before, .ticket-box::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .ticket-box::before { 
+            left: -12px; 
+            border-right: 1px solid var(--gray-border); 
+        }
+        .ticket-box::after { 
+            right: -12px; 
+            border-left: 1px solid var(--gray-border); 
+        }
+
+        .ticket-number {
+            font-size: 5.5rem;
+            color: var(--gold);
+            margin: 10px 0;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: 2px;
+            text-shadow: 0 0 25px rgba(196, 164, 132, 0.2);
+        }
+
+        /* Status & Order Info */
+        .status-info {
+            background: #050505;
+            border-radius: 6px;
+            padding: 10px 20px;
+            border: 1px solid #141414;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #151515;
+        }
+
+        .status-row:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            font-size: 0.7rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        .status-value {
+            font-size: 0.8rem;
+            color: #ffffff;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Live Indicator Animation */
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #2ed573;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 10px #2ed573;
+            animation: pulse-green 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 213, 115, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(46, 213, 115, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 213, 115, 0); }
+        }
+
+        /* Buttons & Actions */
+        .btn-gold {
+            display: inline-block;
+            background: var(--gold);
+            color: #000;
+            padding: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .btn-gold:hover {
+            background: var(--gold-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(196, 164, 132, 0.25);
+        }
+
+        .cancel-container {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid var(--gray-border);
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            color: #ff4444;
+            padding: 12px 25px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-cancel:hover {
+            background: #ff4444;
+            color: #ffffff;
+            border-color: #ff4444;
+            box-shadow: 0 5px 15px rgba(255, 68, 68, 0.25);
+        }
+
+        .cancel-note {
+            display: block;
+            font-size: 0.65rem;
+            color: #555;
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Placeholder for Navigation Header -->
+    <div id="header-placeholder"></div>
+
+    <main class="workspace-scope">
+        <!-- Empty State View -->
+        <div id="no-order-view" class="order-container" style="border-style: solid; display: none;">
+            <i class="fas fa-mug-hot" style="font-size: 3rem; color: var(--gold); margin-bottom: 20px;"></i>
+            <h2 class="gold-text">No Active Orders</h2>
+            <p style="margin-bottom: 30px; color: #777; font-size: 0.85rem; line-height: 1.6;">Your queue is currently empty. Ready for a freshly crafted brew?</p>
+            <a href="menu.html" class="btn-gold" style="width: 100%;">Browse Menu</a>
+        </div>
+
+        <!-- Active Ticket View -->
+        <div id="order-view" class="order-container" style="display: none;">
+            <div class="ticket-header">
+                <h2 class="gold-text">Queue Ticket</h2>
+                <p>Order for: <strong id="ticket-name"></strong></p>
+            </div>
+
+            <div class="ticket-box">
+                <span style="color: #555; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 3px; font-weight: 700;">Order Identifier</span>
+                <h1 class="ticket-number" id="ticket-number"></h1>
+                <p style="color: var(--gold); font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;" id="ticket-item"></p>
+            </div>
+
+            <div class="status-info">
+                <div class="status-row">
+                    <span class="status-label">Current Status</span>
+                    <span class="status-value" style="color: #2ed573;">
+                        <span class="live-dot"></span> Preparing
+                    </span>
+                </div>
+                <div class="status-row">
+                    <span class="status-label">Time Placed</span>
+                    <span class="status-value" id="ticket-time"></span>
+                </div>
+            </div>
+
+            <p style="font-size: 0.75rem; color: #666; margin-top: 25px; line-height: 1.6;">
+                Please present this digital ticket at the counter for payment and collection.
+            </p>
+            
+            <div class="cancel-container">
+                <form id="cancel-form">
+                    <button type="submit" class="btn-cancel">
+                        <i class="fas fa-times"></i> Cancel Order
+                    </button>
+                    <span class="cancel-note">This will permanently remove you from the queue</span>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Load navigation dynamically
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('nav.html')
+                .then(response => response.ok ? response.text() : '')
+                .then(data => {
+                    if (data) document.getElementById('header-placeholder').innerHTML = data;
+                })
+                .catch(() => {});
+        });
+
+        // Ticket Rendering Logic
+        const activeOrderData = localStorage.getItem('active_order');
+
+        if (!activeOrderData) {
+            document.getElementById('no-order-view').style.display = 'block';
+        } else {
+            const order = JSON.parse(activeOrderData);
+            document.getElementById('ticket-name').innerText = order.name || 'Valued Guest';
+            document.getElementById('ticket-number').innerText = order.number || '#000';
+            document.getElementById('ticket-item').innerText = order.item || 'Coffee Item';
+            document.getElementById('ticket-time').innerText = order.time || 'Just now';
+            document.getElementById('order-view').style.display = 'block';
+        }
+
+        // Cancel Order Logic
+        document.getElementById('cancel-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to cancel your order and leave the queue?')) {
+                localStorage.removeItem('active_order');
+                window.location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grind Coffee</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Shared Modal Styling for Admin & Employee Portals */
+        .auth-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10000;
+        }
+        .auth-modal-content {
+            background: #0a0a0a;
+            border: 1px solid var(--gold, #C4A484);
+            padding: 40px 30px;
+            width: 100%; max-width: 360px;
+            text-align: center; border-radius: 8px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+        }
+        .close-modal {
+            position: absolute; top: 15px; right: 20px;
+            color: #666; font-size: 1.5rem; cursor: pointer;
+        }
+        .close-modal:hover { color: #fff; }
+        
+        .modal-input {
+            width: 100%; padding: 12px; background: #000; 
+            border: 1px solid #333; color: #fff; text-align: center; 
+            font-size: 1rem; border-radius: 4px; margin-bottom: 12px; 
+            box-sizing: border-box;
+        }
+        .modal-input:focus {
+            border-color: var(--gold, #C4A484);
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <header class="hero">
+        <h1>THE GRIND</h1>
+        <p class="gold-text" style="letter-spacing: 3px;">SPECIALTY COFFEE • CUISINE • CREATIVE HUB</p>
+        <div class="hero-btns" style="margin-top: 30px;">
+            <a href="menu.html" class="btn btn-gold">VIEW MENU</a>
+            <a href="hire-me.html" class="btn btn-outline">BOOK EVENTS</a>
+        </div>
+    </header>
+
+    <section>
+        <h2 style="color: var(--gold, #C4A484); margin-bottom: 20px;">ELEVATE YOUR CRAFT</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>ROASTED</h3>
+                <p>Sourced across Africa, roasted daily in-house.</p>
+            </div>
+            <div class="card">
+                <h3>CONNECTED</h3>
+                <p>High-speed workspace for remote professionals.</p>
+            </div>
+            <div class="card">
+                <h3>MOBILE</h3>
+                <p>The barista experience brought to your event.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h2 class="footer-logo">THE GRIND.</h2>
+                <p class="footer-bio">
+                    A premium coffee experience and collaborative workspace designed for those who grind with purpose.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links" style="list-style: none; padding: 0; line-height: 2;">
+                    <li><a href="workspace.html" style="color: #ccc; text-decoration: none;">Workspace</a></li>
+                    <li><a href="tracker.html" style="color: #ccc; text-decoration: none;">Order Tracker</a></li>
+                    <li><a href="settings.html" style="color: #ccc; text-decoration: none;">Account Settings</a></li>
+                    <li><a href="register.html" style="color: #ccc; text-decoration: none;">Join Loyalty</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3 class="footer-heading">Visit & Contact</h3>
+                <p><i class="fas fa-map-marker-alt" style="color: var(--gold, #C4A484); margin-right: 8px;"></i> 123 Coffee Lane, Sandton</p>
+                <p><i class="fas fa-envelope" style="color: var(--gold, #C4A484); margin-right: 8px;"></i> <a href="mailto:info@thegrindcoffeecompany.co.za" style="color: inherit; text-decoration: none;">info@thegrindcoffeecompany.co.za</a></p>
+                <p><i class="fas fa-phone" style="color: var(--gold, #C4A484); margin-right: 8px;"></i> <a href="tel:+27727548705" style="color: inherit; text-decoration: none;">+27 72 754 8705</a></p>
+                
+                <div class="social-icons" style="margin-top: 15px;">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/27727548705" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3 class="footer-heading">Project Credits</h3>
+                <p class="dev-names" style="color: var(--gold, #C4A484); font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Lead Developers</p>
+                <p>Amo Matlhaga & Kea Masole</p>
+            </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--gray-medium, #222); margin: 30px 0 20px;">
+
+        <div class="footer-bottom">
+            <p align="center">&copy; <span id="currentYear"></span> THE GRIND COFFEE COMPANY. ALL RIGHTS RESERVED.</p>
+            <p align="center" style="color: var(--gold, #C4A484); font-size: 0.8rem; margin-top: 5px;">
+                Engineered by <strong>SyreTech Solutions</strong> | 
+                <a href="employee-dashboard.html" onclick="accessEmployeePortal(event)" style="color: var(--gold, #C4A484); margin-right: 10px;">Employee Portal</a> |
+                <a href="#" onclick="accessAdminPanel(event)" style="color: var(--gold, #C4A484);">Admin Panel</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Employee Auth Modal -->
+    <div id="employeeModal" class="auth-modal" style="display: none;">
+        <div class="auth-modal-content">
+            <span class="close-modal" onclick="closeEmployeeModal()">&times;</span>
+            <i class="fa-solid fa-id-badge" style="font-size: 2.5rem; color: var(--gold, #C4A484); margin-bottom: 15px;"></i>
+            <h3 style="text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; color: #fff;">Staff Sign In</h3>
+            <p style="color: #888; font-size: 0.75rem; margin-bottom: 20px;">Access live orders & inventory tracking</p>
+            
+            <div id="employee-error" style="color: #ff4444; font-size: 0.75rem; margin-bottom: 15px; display: none;">
+                Invalid Employee ID or Passcode.
+            </div>
+
+            <input type="text" id="employeeIdInput" class="modal-input" placeholder="Employee ID (e.g., EMP01)">
+            <input type="password" id="employeePassInput" class="modal-input" placeholder="Passcode" maxlength="6">
+            
+            <button onclick="verifyEmployeeCredentials()" style="width: 100%; padding: 14px; background: var(--gold, #C4A484); color: #000; border: none; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border-radius: 4px; margin-top: 10px;">
+                Staff Login
+            </button>
+        </div>
+    </div>
+
+    <!-- Admin Auth Modal -->
+    <div id="adminModal" class="auth-modal" style="display: none;">
+        <div class="auth-modal-content">
+            <span class="close-modal" onclick="closeAdminModal()">&times;</span>
+            <i class="fa-solid fa-user-shield" style="font-size: 2.5rem; color: var(--gold, #C4A484); margin-bottom: 15px;"></i>
+            <h3 style="text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; color: #fff;">Admin Security</h3>
+            <p style="color: #888; font-size: 0.75rem; margin-bottom: 20px;">Enter security PIN to access system controls</p>
+            
+            <div id="admin-error" style="color: #ff4444; font-size: 0.75rem; margin-bottom: 15px; display: none;">
+                Incorrect security PIN. Access denied.
+            </div>
+
+            <input type="password" id="adminPinInput" class="modal-input" placeholder="••••" maxlength="6" style="letter-spacing: 5px; font-size: 1.2rem;">
+            
+            <button onclick="verifyAdminPin()" style="width: 100%; padding: 14px; background: var(--gold, #C4A484); color: #000; border: none; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border-radius: 4px; margin-top: 10px;">
+                Authenticate
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const yearElem = document.getElementById('currentYear');
+            if (yearElem) yearElem.innerText = new Date().getFullYear();
+
+            fetch('nav.html')
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to load nav.html');
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    initHeaderScript();
+                })
+                .catch(error => {
+                    console.error('CORS or file access error:', error);
+                    document.getElementById('header-placeholder').innerHTML = 
+                        '<div style="color: #ff4444; padding: 15px; text-align: center; background: #111;">' +
+                        'Navigation failed to load. Open using a Live Server (HTTP/HTTPS).' +
+                        '</div>';
+                });
+        });
+
+        function initHeaderScript() {
+            const user = JSON.parse(localStorage.getItem('user_session') || 'null');
+            const loggedInElems = document.querySelectorAll('.auth-logged-in');
+            const loggedOutElems = document.querySelectorAll('.auth-logged-out');
+
+            if (user && user.user_id) {
+                loggedInElems.forEach(el => el.style.display = 'block');
+                loggedOutElems.forEach(el => el.style.display = 'none');
+                
+                const initial = user.user_name ? user.user_name.charAt(0).toUpperCase() : 'U';
+                const userInitialEl = document.getElementById('userInitial');
+                if (userInitialEl) userInitialEl.innerText = initial;
+            } else {
+                loggedInElems.forEach(el => el.style.display = 'none');
+                loggedOutElems.forEach(el => el.style.display = 'block');
+            }
+        }
+
+        // --- EMPLOYEE AUTHENTICATION LOGIC ---
+        const STAFF_MEMBERS = [
+            { id: "EMP01", passcode: "1234", name: "Barista Alex", role: "barista" },
+            { id: "EMP02", passcode: "5678", name: "Store Shift Manager", role: "manager" }
+        ];
+
+        function accessEmployeePortal(event) {
+            if (event) event.preventDefault();
+            const staffSession = localStorage.getItem('employee_session');
+            if (staffSession) {
+                window.location.href = 'employee-dashboard.html';
+                return;
+            }
+            document.getElementById('employeeModal').style.display = 'flex';
+            document.getElementById('employeeIdInput').focus();
+        }
+
+        function verifyEmployeeCredentials() {
+            const empId = document.getElementById('employeeIdInput').value.trim().toUpperCase();
+            const pass = document.getElementById('employeePassInput').value.trim();
+            const errorElem = document.getElementById('employee-error');
+
+            const matchedEmployee = STAFF_MEMBERS.find(emp => emp.id === empId && emp.passcode === pass);
+
+            if (matchedEmployee) {
+                localStorage.setItem('employee_session', JSON.stringify({
+                    id: matchedEmployee.id,
+                    name: matchedEmployee.name,
+                    role: matchedEmployee.role,
+                    authenticatedAt: new Date().toISOString()
+                }));
+                window.location.href = 'employee-dashboard.html';
+            } else {
+                errorElem.style.display = 'block';
+                document.getElementById('employeePassInput').value = '';
+            }
+        }
+
+        function closeEmployeeModal() {
+            document.getElementById('employeeModal').style.display = 'none';
+            document.getElementById('employee-error').style.display = 'none';
+            document.getElementById('employeeIdInput').value = '';
+            document.getElementById('employeePassInput').value = '';
+        }
+
+        // --- SUPER ADMIN AUTHENTICATION LOGIC ---
+        const ADMIN_PIN = "7788";
+
+        function accessAdminPanel(event) {
+            if (event) event.preventDefault();
+            const adminAuth = localStorage.getItem('admin_authenticated');
+            if (adminAuth === 'true') {
+                window.location.href = 'admin.html';
+                return;
+            }
+            document.getElementById('adminModal').style.display = 'flex';
+            document.getElementById('adminPinInput').focus();
+        }
+
+        function verifyAdminPin() {
+            const enteredPin = document.getElementById('adminPinInput').value.trim();
+            const errorElem = document.getElementById('admin-error');
+
+            if (enteredPin === ADMIN_PIN) {
+                localStorage.setItem('admin_authenticated', 'true');
+                window.location.href = 'admin.html';
+            } else {
+                errorElem.style.display = 'block';
+                document.getElementById('adminPinInput').value = '';
+            }
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').style.display = 'none';
+            document.getElementById('admin-error').style.display = 'none';
+            document.getElementById('adminPinInput').value = '';
+        }
+    </script>
+</body>
+</html>

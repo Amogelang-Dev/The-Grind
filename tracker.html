@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Order Status</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tracker-container {
+            min-height: 80vh;
+            background: #050505;
+            color: white;
+            padding: 80px 10%;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tracker-header { text-align: center; margin-bottom: 40px; }
+        .tracker-header h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 10px; }
+        .tracker-header p { color: var(--gold, #C4A484); letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; }
+
+        /* Search Section Styling */
+        .search-card {
+            background: #0a0a0a;
+            border: 1px solid #111;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            box-sizing: border-box;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            background: #111;
+            border: 1px solid #222;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            text-align: center;
+        }
+
+        .search-box button {
+            padding: 12px 24px;
+            background: var(--gold, #C4A484);
+            border: none;
+            color: #000;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-wrapper {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 100px;
+        }
+
+        .progress-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #222;
+            z-index: 1;
+        }
+
+        .progress-line-active {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            height: 2px;
+            background: var(--gold, #C4A484);
+            z-index: 2;
+            transition: 1s ease;
+            width: 33.333%; /* Corresponding to orderStatus = 2 */
+        }
+
+        .step {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            background: #111;
+            border: 2px solid #222;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: 0.5s;
+            color: #444;
+        }
+
+        .step.active .step-circle {
+            border-color: var(--gold, #C4A484);
+            background: #000;
+            color: var(--gold, #C4A484);
+            box-shadow: 0 0 15px rgba(196, 164, 132, 0.3);
+        }
+
+        .step.completed .step-circle {
+            background: var(--gold, #C4A484);
+            border-color: var(--gold, #C4A484);
+            color: #000;
+        }
+
+        .step-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #444;
+        }
+
+        .step.active .step-label { color: #fff; }
+
+        .order-details-card {
+            background: #0a0a0a;
+            border: 1px solid #111;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+            font-size: 0.7rem;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .back-btn {
+            margin-top: 30px;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+        .back-btn:hover { color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="tracker-container">
+    <div class="tracker-header">
+        <p>Order ID: <span id="order-id">#GRND-8821</span></p>
+        <h1>Live Order Status</h1>
+    </div>
+
+    <!-- Search Section Added Here -->
+    <div class="search-card">
+        <div class="search-box">
+            <input type="text" id="orderIdInput" placeholder="Enter Order # (e.g. 8821)">
+            <button onclick="searchOrder()">Track</button>
+        </div>
+    </div>
+
+    <div class="progress-wrapper">
+        <div class="progress-line-active" id="progress-line"></div>
+
+        <div class="step completed" id="step-1">
+            <div class="step-circle"><i class="fas fa-receipt"></i></div>
+            <span class="step-label">Received</span>
+        </div>
+
+        <div class="step active" id="step-2">
+            <div class="step-circle"><i class="fas fa-mug-hot"></i></div>
+            <span class="step-label">Preparing</span>
+        </div>
+
+        <div class="step" id="step-3">
+            <div class="step-circle"><i class="fas fa-check-double"></i></div>
+            <span class="step-label">Quality Check</span>
+        </div>
+
+        <div class="step" id="step-4">
+            <div class="step-circle"><i class="fas fa-walking"></i></div>
+            <span class="step-label">Ready</span>
+        </div>
+    </div>
+
+    <div class="order-details-card">
+        <div class="status-badge">
+            <span class="live-dot"></span> In Progress
+        </div>
+        <h3 style="margin-bottom: 10px;">The baristas are crafting your order.</h3>
+        <p style="color: #666; font-size: 0.9rem;">Estimated wait time: <strong>~5-8 minutes</strong></p>
+        
+        <hr style="border: 0; border-top: 1px solid #222; margin: 30px 0;">
+        
+        <p style="font-size: 0.8rem; color: #888;">Grab a seat in the workspace. We'll alert you here when it's ready.</p>
+    </div>
+
+    <a href="profile.html" class="back-btn"><i class="fas fa-arrow-left"></i> Return to Dashboard</a>
+</div>
+
+<script>
+    // Client-side state handling to emulate PHP order status calculation
+    const orderStatus = 2; // 1: Received, 2: Preparing, 3: Quality Check, 4: Ready
+    const activeLine = document.getElementById('progress-line');
+    
+    activeLine.style.width = (((orderStatus - 1) / 3) * 100) + '%';
+
+    for (let i = 1; i <= 4; i++) {
+        const stepEl = document.getElementById(`step-${i}`);
+        stepEl.classList.remove('active', 'completed');
+        if (i < orderStatus) {
+            stepEl.classList.add('completed');
+        } else if (i === orderStatus) {
+            stepEl.classList.add('active');
+        }
+    }
+
+    // Function to handle the track button click
+    function searchOrder() {
+        const inputVal = document.getElementById('orderIdInput').value.trim();
+        if (inputVal) {
+            document.getElementById('order-id').innerText = '#' + inputVal.replace('#', '');
+        }
+    }
+</script>
+
+</body>
+</html>
