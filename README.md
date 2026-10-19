@@ -1,112 +1,136 @@
 # The Grind
 
-A modern, responsive website built with HTML, CSS, and JavaScript to help users stay focused and productive.
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Repo Size](https://img.shields.io/github/repo-size/Amogelang-Dev/The-Grind)](https://github.com/Amogelang-Dev/The-Grind)
+[![Issues](https://img.shields.io/github/issues/Amogelang-Dev/The-Grind)](https://github.com/Amogelang-Dev/The-Grind/issues)
 
-## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+A combined repository containing a responsive website (The Grind) and a companion Android mobile application (Grind Coffee Co.). This README gives an at-a-glance overview and quick-start instructions for both projects.
 
-## 🎯 Overview
+---
 
-**The Grind** is a productivity-focused website designed to help users manage their tasks, track progress, and maintain focus on their goals. Whether you're studying, working, or pursuing any challenging objective, The Grind provides the tools and interface you need to stay on track.
+<!-- HERO -->
+<p align="center">
+  <img src="images/house-blend.jpeg" alt="Grind Coffee" width="720" style="border-radius:8px;">
+</p>
 
-## ✨ Features
+---
 
-- **Clean, Intuitive Interface** – User-friendly design that focuses on productivity
-- **Responsive Design** – Works seamlessly across desktop, tablet, and mobile devices
-- **Task Management** – Organize and prioritize your tasks effectively
-- **Progress Tracking** – Monitor your productivity and achievements
-- **Modern Styling** – Professional CSS styling with smooth interactions
-- **Interactive Elements** – JavaScript-powered features for enhanced user experience
+## Project summary
 
-## 🛠️ Tech Stack
+- Website: The Grind — a simple, responsive front-end for productivity and information.
+- Mobile app: Grind Coffee Co. — an Android ordering & rewards app included in the `app/` module.
 
-This project is built with:
 
-- **HTML (93.1%)** – Semantic markup and structure
-- **CSS (5.4%)** – Styling and responsive layouts
-- **JavaScript (1.5%)** – Interactivity and dynamic features
+## Quick links
 
-## 📁 Project Structure
+- Source: https://github.com/Amogelang-Dev/The-Grind
+- Issues: https://github.com/Amogelang-Dev/The-Grind/issues
+
+---
+
+## Project A — The Grind (Website)
+
+A modern, responsive website to help users stay focused and productive.
+
+Tech stack
+- HTML, CSS, JavaScript (static front-end)
+
+Project structure (website files at repository root):
 
 ```
 The-Grind/
-├── README.md          # Project documentation
-├── index.html         # Main landing page
-├── styles/
-│   └── style.css      # Main stylesheet
-├── scripts/
-│   └── script.js      # JavaScript functionality
-└── assets/            # Images and other assets
+├── README.md
+├── index.html
+├── style.css
+├── images/       # images used by website and app documentation
+└── scripts/      # optional JS functionality
 ```
 
-## 🚀 Getting Started
+Quick start (website)
+1. Open `index.html` in a web browser.
+2. Or run a simple local server from the repository root:
 
-### Prerequisites
+```bash
+python -m http.server 8000
+# then visit http://localhost:8000
+```
 
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-- A text editor (VS Code, Sublime Text, etc.)
-- Git (optional, for cloning the repository)
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Amogelang-Dev/The-Grind.git
-   cd The-Grind
-   ```
-
-2. **Open the website:**
-   - Navigate to the project directory
-   - Open `index.html` in your web browser
-   - Or use a local server:
-     ```bash
-     python -m http.server 8000
-     # Then visit http://localhost:8000
-     ```
-
-## 💡 Usage
-
-1. **Access the Website** – Open the website in your browser
-2. **Explore Features** – Navigate through the interface to discover productivity tools
-3. **Manage Tasks** – Create, organize, and track your tasks
-4. **Track Progress** – Monitor your productivity metrics
-5. **Stay Focused** – Use the platform to maintain focus on your goals
-
-## 🤝 Contributing
-
-Contributions are welcome! To contribute to The Grind:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-Please ensure your code follows the existing style and structure.
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE) (or update with your preferred license).
-
-## 👤 Author
-
-**ST10355816 - Amogelang Matlhaga** <br >
-**ST10437711 - Keabetswe Masole**
+Notes
+- Static site — no build tooling required.
+- Test responsive behaviour in a modern browser (Chrome, Firefox, Safari, Edge).
 
 ---
 
-## 📞 Support
+## Project B — Grind Coffee Co. (Android App)
 
-If you encounter any issues or have questions, please open an issue on the [GitHub repository](https://github.com/Amogelang-Dev/The-Grind/issues).
+Grind Coffee Co. is the Android app included under the `app/` directory. It provides mobile ordering, rewards, and profile management for a coffee shop experience.
+
+Primary app assets (examples)
+
+- App name: `Grind Coffee Co.`
+- Entry activity: `LoginActivity` (manifest declares LAUNCHER intent)
+- App strings and resources: `app/src/main/res/values/strings.xml`
+
+App screenshots and icons
+
+<p align="center">
+  <img src="images/americano.jpeg" alt="Americano" width="280" style="margin-right:12px; border-radius:6px;">
+  <img src="images/flat-white.jpeg" alt="Flat White" width="280" style="border-radius:6px;">
+</p>
+
+Observed features
+- Menu browsing (coffee, food), add-to-cart and order placement.
+- Pickup/delivery options and estimated pickup times.
+- User accounts: login, register and profile management.
+- Rewards, promotions and order history.
+- Integration points: UCrop activity (image cropping), Gradle-based build.
+
+Quick start (Android)
+1. Open the repository in Android Studio (or open the `app/` module).
+2. Ensure required SDKs/JDK are installed (project uses Gradle Kotlin DSL).
+3. If needed, add `google-services.json` to `app/` for Firebase features.
+4. Build and run using the Gradle wrapper:
+
+```bash
+# From repository root
+./gradlew assembleDebug
+./gradlew installDebug
+```
+
+Notes
+- Do not commit production credentials or signing keys.
+- Check `app/src/main/AndroidManifest.xml` and `app/src/main/res/values/strings.xml` for app configuration and labels.
 
 ---
 
-**Happy Grinding!** 💪 Stay productive, stay focused, and keep grinding toward your goals.
+## Contributing
+
+Contributions are welcome. To contribute:
+1. Create an issue describing the feature or bug.
+2. Create a branch (e.g., `feature/...`, `bugfix/...`, `docs/...`).
+3. Make changes and run project-specific checks (open `index.html` or run Gradle for Android).
+4. Commit, push, and open a pull request describing which project the change affects.
+
+Guidelines
+- Prefix commit messages with `web:` for website changes and `android:` for app changes where appropriate.
+- Include screenshots for UI changes and a short testing checklist in PR descriptions.
+
+---
+
+## License
+
+This repository is licensed under the MIT License. See `LICENSE` for details.
+
+---
+
+## Contact / Support
+
+If you run into issues or have questions, open an issue: https://github.com/Amogelang-Dev/The-Grind/issues
+
+---
+
+If you'd like, I can also:
+- Add a dedicated `app/README.md` with package name, build variants, and developer notes (recommended).
+- Create smaller icon files (app logo) and place them in `app/src/main/res/mipmap-*/` if you want a ready-to-use launcher icon.
+
