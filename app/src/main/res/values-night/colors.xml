@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#211A17</color> <!-- In dark mode, white becomes dark coffee -->
+    <color name="black">#FFFFFF</color> <!-- In dark mode, black becomes white -->
+
+    <!-- Coffee Palette for Dark Mode -->
+    <color name="coffee_primary">#D7CCC8</color> <!-- Lighter coffee for dark mode readability -->
+    <color name="coffee_secondary">#8D6E63</color>
+    <color name="coffee_accent">#EAD6A8</color> <!-- Brighter gold for dark background -->
+    <color name="coffee_background">#1B1614</color> <!-- Even darker coffee background -->
+
+    <!-- Warm Greys for Dark Mode -->
+    <color name="grey_light">#2D2623</color>
+    <color name="grey_medium">#4E342E</color>
+    <color name="grey_dark">#BCAAA4</color>
+
+    <color name="ubereats_green">#EAD6A8</color>
+</resources>

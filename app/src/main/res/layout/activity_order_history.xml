@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Order History Screen Layout
+    Root Container: CoordinatorLayout allows coordination of animations and scroll behaviors (e.g., hiding/showing the toolbar).
+    Attributes:
+    - layout_width/layout_height: match_parent (fills the entire screen)
+    - background: coffee_background (applies the themed background color)
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/coffee_background">
+
+    <!--
+        AppBarLayout: A vertical LinearLayout that implements many of the features of material designs app bar concept, namely scrolling gestures.
+        Attributes:
+        - elevation: 0dp (removes any drop shadow below the app bar)
+    -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/coffee_background"
+        app:elevation="0dp">
+
+        <!--
+            Toolbar: The standard header bar used for branding, navigation, and screen titles.
+            Attributes:
+            - id: toolbar (reference ID for access in Kotlin/Java code)
+            - navigationIcon: ic_menu_revert (sets a back arrow icon)
+        -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@android:drawable/ic_menu_revert">
+
+            <!--
+                TextView: Displays the title of the screen inside the toolbar.
+                Attributes:
+                - layout_gravity: center (centers the text horizontally and vertically in the toolbar)
+                - text: @string/order_history (localized string resource for "Order History")
+                - textColor: black (sets text color)
+                - textSize: 18sp (sets size of the title)
+                - textStyle: bold (makes the text bold)
+            -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/order_history"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <!--
+            Filter Bar (LinearLayout): Arranges the filter controls horizontally.
+            Attributes:
+            - orientation: horizontal (lays out children side by side)
+            - padding: 16dp (adds space inside all four edges)
+        -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <!--
+                MaterialButton: Allows filtering the order history list by date range.
+                Attributes:
+                - id: btnFilterDate (reference ID for setting click listeners)
+                - style: OutlinedButton (uses standard outlined material style)
+                - text: @string/filter_by_date (localized label text)
+                - textAllCaps: false (prevents uppercase transformation)
+                - icon: ic_menu_today (adds a calendar icon to the button)
+                - strokeColor: grey_medium (sets the outline border color)
+            -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFilterDate"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filter_by_date"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                app:icon="@android:drawable/ic_menu_today"
+                app:iconTint="@color/black"
+                app:strokeColor="@color/grey_medium" />
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!--
+        NestedScrollView: A scrollable container that works correctly with CoordinatorLayout and AppBarLayout scrolling behaviors.
+        Attributes:
+        - layout_behavior: appbar_scrolling_view_behavior (tells CoordinatorLayout that this view scrolls under the AppBarLayout)
+    -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!--
+            Main content wrapper container (LinearLayout)
+            Attributes:
+            - orientation: vertical (stacks the RecyclerView and Empty State vertically)
+        -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!--
+                RecyclerView: A flexible view for providing a limited window into a large data set (lists previous orders efficiently).
+                Attributes:
+                - id: rvOrderHistory (reference ID to populate data via an Adapter)
+                - layoutManager: LinearLayoutManager (arranges items linearly top-to-bottom)
+                - tools:listitem: @layout/item_order_history (shows a preview layout of a single item in the Android Studio designer)
+            -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvOrderHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_order_history" />
+
+            <!--
+                Empty State Container (LinearLayout): Displayed only when there are no orders in history.
+                Attributes:
+                - id: llNoOrders (reference ID to toggle visibility programmatically)
+                - layout_marginTop: 100dp (pushes the empty state layout down for better centering)
+                - gravity: center (centers elements inside it both horizontally and vertically)
+                - visibility: gone (hidden by default, made visible from code if order list is empty)
+                - tools:visibility: visible (forces visibility inside the editor layout preview)
+            -->
+            <LinearLayout
+                android:id="@+id/llNoOrders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <!--
+                    TextView: Displays the text message when no orders are found.
+                    Attributes:
+                    - id: tvNoOrders (reference ID for the text view)
+                    - text: @string/no_orders (localized string resource)
+                    - textColor: grey_dark (muted dark grey color for secondary text)
+                -->
+                <TextView
+                    android:id="@+id/tvNoOrders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/no_orders"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="16sp" />
+
+                <!--
+                    Button: A call-to-action button allowing users to navigate to the menu to place an order.
+                    Attributes:
+                    - id: btnGoToMenu (reference ID to add click action)
+                    - text: "Start Ordering" (button text)
+                    - textColor/strokeColor: coffee_primary (applies the primary brand color to outline and text)
+                -->
+                <Button
+                    android:id="@+id/btnGoToMenu"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Start Ordering"
+                    android:textAllCaps="false"
+                    android:textColor="@color/coffee_primary"
+                    app:strokeColor="@color/coffee_primary" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#211A17</color> <!-- Very dark coffee -->
+    <color name="white">#FFFFFF</color>
+
+    <!-- Coffee Palette -->
+    <color name="coffee_primary">#4E342E</color> <!-- Espresso -->
+    <color name="coffee_secondary">#8D6E63</color> <!-- Latte -->
+    <color name="coffee_accent">#C5A059</color> <!-- Roasted Gold -->
+    <color name="coffee_background">#FFFBF8</color> <!-- Warm Cream -->
+
+    <!-- Warm Greys -->
+    <color name="grey_light">#F9F4F2</color>
+    <color name="grey_medium">#E0D7D3</color>
+    <color name="grey_dark">#5D4037</color>
+
+    <color name="error_red">#D32F2F</color>
+
+    <!-- For backward compatibility during transition if needed -->
+    <color name="ubereats_green">#C5A059</color> <!-- Redirecting to accent -->
+</resources>
