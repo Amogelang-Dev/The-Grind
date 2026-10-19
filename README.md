@@ -1,11 +1,31 @@
 # The Grind
 
-This repository contains two distinct projects kept together for convenience:
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Repo Size](https://img.shields.io/github/repo-size/Amogelang-Dev/The-Grind)](https://github.com/Amogelang-Dev/The-Grind)
+[![Issues](https://img.shields.io/github/issues/Amogelang-Dev/The-Grind)](https://github.com/Amogelang-Dev/The-Grind/issues)
 
-1. The Grind — a responsive, productivity-focused website built with HTML, CSS, and JavaScript.
-2. Grind Coffee Co. — an Android mobile application (Kotlin/Java) bundled in this repository as a separate Android project/module.
 
-This README provides a brief, separated overview and quick-start instructions for each project. For full, project-specific documentation, please check for a README inside each project's directory (or open an issue if you can't find it).
+A combined repository containing a responsive website (The Grind) and a companion Android mobile application (Grind Coffee Co.). This README gives an at-a-glance overview and quick-start instructions for both projects.
+
+---
+
+<!-- HERO -->
+<p align="center">
+  <img src="images/house-blend.jpeg" alt="Grind Coffee" width="720" style="border-radius:8px;">
+</p>
+
+---
+
+## Project summary
+
+- Website: The Grind — a simple, responsive front-end for productivity and information.
+- Mobile app: Grind Coffee Co. — an Android ordering & rewards app included in the `app/` module.
+
+
+## Quick links
+
+- Source: https://github.com/Amogelang-Dev/The-Grind
+- Issues: https://github.com/Amogelang-Dev/The-Grind/issues
 
 ---
 
@@ -13,101 +33,104 @@ This README provides a brief, separated overview and quick-start instructions fo
 
 A modern, responsive website to help users stay focused and productive.
 
-Overview
-- Purpose: Task management, progress tracking, and focused productivity through a simple web interface.
-- Tech: HTML, CSS, JavaScript (static site)
+Tech stack
+- HTML, CSS, JavaScript (static front-end)
 
 Project structure (website files at repository root):
+
 ```
 The-Grind/
-├── README.md          # This file (repository-level)
-├── index.html         # Main landing page for The Grind website
-├── styles/
-│   └── style.css      # Main stylesheet
-├── scripts/
-│   └── script.js      # JavaScript functionality
-└── assets/            # Images and other assets
+├── README.md
+├── index.html
+├── style.css
+├── images/       # images used by website and app documentation
+└── scripts/      # optional JS functionality
 ```
 
 Quick start (website)
 1. Open `index.html` in a web browser.
-2. Or run a local server from the repository root:
+2. Or run a simple local server from the repository root:
+
 ```bash
 python -m http.server 8000
 # then visit http://localhost:8000
 ```
 
 Notes
-- The website is a static front-end project — no build tooling is required unless added later.
-- Use a modern browser (Chrome, Firefox, Safari, Edge) when testing responsive behavior.
+- Static site — no build tooling required.
+- Test responsive behaviour in a modern browser (Chrome, Firefox, Safari, Edge).
 
 ---
 
 ## Project B — Grind Coffee Co. (Android App)
 
-A mobile ordering and rewards Android application for a coffee shop brand (Grind Coffee Co.). The Android project lives inside this repository as a separate module (see the `app/` directory).
+Grind Coffee Co. is the Android app included under the `app/` directory. It provides mobile ordering, rewards, and profile management for a coffee shop experience.
 
-Summary of features (observed from the project resources)
-- Place and manage coffee and food orders (menu, cart, order history).
-- Pickup and delivery options with estimated pickup times.
-- User account, login/registration, and profile management.
-- Rewards and promotions, gamified elements (points/rewards tracking).
-- Support for image cropping (UCrop activity integration) and various product/detail screens.
-- Local data storage and standard Android app architecture (Gradle-based build).
+Primary app assets (examples)
+
+- App name: `Grind Coffee Co.`
+- Entry activity: `LoginActivity` (manifest declares LAUNCHER intent)
+- App strings and resources: `app/src/main/res/values/strings.xml`
+
+App screenshots and icons
+
+<p align="center">
+  <img src="images/americano.jpeg" alt="Americano" width="280" style="margin-right:12px; border-radius:6px;">
+  <img src="images/flat-white.jpeg" alt="Flat White" width="280" style="border-radius:6px;">
+</p>
+
+Observed features
+- Menu browsing (coffee, food), add-to-cart and order placement.
+- Pickup/delivery options and estimated pickup times.
+- User accounts: login, register and profile management.
+- Rewards, promotions and order history.
+- Integration points: UCrop activity (image cropping), Gradle-based build.
 
 Quick start (Android)
-1. Open the Android project in Android Studio (open the repository or the `app/` module).
-2. Ensure you have JDK 11 (or the version the project requires) and the Android SDK installed.
-3. If Firebase or other services are used, add the appropriate configuration files (for example `google-services.json`) into the app module.
-4. Build and run on an emulator or physical device.
+1. Open the repository in Android Studio (or open the `app/` module).
+2. Ensure required SDKs/JDK are installed (project uses Gradle Kotlin DSL).
+3. If needed, add `google-services.json` to `app/` for Firebase features.
+4. Build and run using the Gradle wrapper:
 
-Common Gradle commands
 ```bash
-# From the repository root (Gradle wrapper is present):
+# From repository root
 ./gradlew assembleDebug
-./gradlew test
-# For instrumentation tests (requires device/emulator):
-./gradlew connectedAndroidTest
+./gradlew installDebug
 ```
 
-Privacy & security note
-- Do not commit production Firebase credentials, signing keys, or other secrets to the repository.
-- Explain notification access to users before enabling any parsing of notifications.
-- Handle sensitive data securely; consider encrypted storage for preferences and use proper authentication for user accounts.
-
----
-
-## How to locate each project in this repository
-- Website: look for `index.html`, `styles/`, and `scripts/` at the repository root.
-- Android app: open the `app/` directory — it contains `build.gradle.kts`, `src/main/AndroidManifest.xml`, and the `res/` resources (including `strings.xml` where the app name is defined).
-
-If you're still unsure where the Android module is located, tell me and I will point to the exact path or open the app's README if you want one created.
+Notes
+- Do not commit production credentials or signing keys.
+- Check `app/src/main/AndroidManifest.xml` and `app/src/main/res/values/strings.xml` for app configuration and labels.
 
 ---
 
 ## Contributing
-Contributions are welcome — please indicate in your issue and pull request whether the change targets the website, the Android app, or both.
 
-Suggested workflow
+Contributions are welcome. To contribute:
 1. Create an issue describing the feature or bug.
 2. Create a branch (e.g., `feature/...`, `bugfix/...`, `docs/...`).
 3. Make changes and run project-specific checks (open `index.html` or run Gradle for Android).
 4. Commit, push, and open a pull request describing which project the change affects.
 
+Guidelines
+- Prefix commit messages with `web:` for website changes and `android:` for app changes where appropriate.
+- Include screenshots for UI changes and a short testing checklist in PR descriptions.
+
 ---
 
 ## License
-This repository is licensed under the MIT License. See the `LICENSE` file for details.
+
+This repository is licensed under the MIT License. See `LICENSE` for details.
 
 ---
 
-## Support
-If you encounter any issues or have questions, please open an issue on the repository: https://github.com/Amogelang-Dev/The-Grind/issues
+## Contact / Support
+
+If you run into issues or have questions, open an issue: https://github.com/Amogelang-Dev/The-Grind/issues
 
 ---
 
 If you'd like, I can also:
-- Move the Android app into a dedicated top-level folder if files are mixed between the website and Android project.
-- Create or expand a dedicated README inside the Android project's `app/` directory with the full Grind Coffee Co. README content (screenshots, build notes, package name, troubleshooting).
+- Add a dedicated `app/README.md` with package name, build variants, and developer notes (recommended).
+- Create smaller icon files (app logo) and place them in `app/src/main/res/mipmap-*/` if you want a ready-to-use launcher icon.
 
-Happy coding and happy grinding!
