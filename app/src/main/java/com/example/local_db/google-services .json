@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "727255554557",
+    "project_id": "grind-coffee-co",
+    "storage_bucket": "grind-coffee-co.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727255554557:android:f9afed9939e3f90cdb2194",
+        "android_client_info": {
+          "package_name": "com.example.local_db"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727255554557-03307up8mvajk9kihurel9604ka4773u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8L6t95Vcl_zKtUrjhvzi4OTT5nWwxsT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727255554557-03307up8mvajk9kihurel9604ka4773u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

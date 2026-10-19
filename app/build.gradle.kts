@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
 
 
 }
@@ -78,4 +79,6 @@ dependencies {
     implementation(libs.work.runtime.ktx)
     implementation(libs.coil)
     implementation(libs.coil.gif)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore)
 }
