@@ -3,9 +3,9 @@
 This repository contains two distinct projects kept together for convenience:
 
 1. The Grind — a responsive, productivity-focused website built with HTML, CSS, and JavaScript.
-2. PennyWise — an Android personal-finance application (Kotlin) bundled in this repository as a separate Android project/module.
+2. Grind Coffee Co. — an Android mobile application (Kotlin/Java) bundled in this repository as a separate Android project/module.
 
-This README provides a brief, separated overview and quick-start instructions for each project. For full, project-specific documentation, please check for a README inside each project's directory (for example `PennyWise2/README.md`, `app/README.md`, or a README inside a subdirectory). If you can't find a separate README for the Android app, the summary below includes the main steps to build and run it.
+This README provides a brief, separated overview and quick-start instructions for each project. For full, project-specific documentation, please check for a README inside each project's directory (or open an issue if you can't find it).
 
 ---
 
@@ -43,26 +43,27 @@ Notes
 
 ---
 
-## Project B — PennyWise (Android App)
+## Project B — Grind Coffee Co. (Android App)
 
-A gamified personal-finance Android application written in Kotlin. The Android project lives inside this repository as a separate module or subfolder — look for directories such as `PennyWise2/`, `PennyWise/`, or an `app/` module containing `build.gradle` and `AndroidManifest.xml`.
+A mobile ordering and rewards Android application for a coffee shop brand (Grind Coffee Co.). The Android project lives inside this repository as a separate module (see the `app/` directory).
 
-Summary of features
-- Automated and manual expense recording (notification parsing for supported banks).
-- Budget configuration and validation (monthly income, min/max spending goals).
-- Local storage via SQLite and optional Firebase Firestore sync for selected progress data.
-- Reports and charts (category totals, date-range filtering, downloadable statements).
-- Gamified progression with XP and milestones, receipts support, and dark mode.
+Summary of features (observed from the project resources)
+- Place and manage coffee and food orders (menu, cart, order history).
+- Pickup and delivery options with estimated pickup times.
+- User account, login/registration, and profile management.
+- Rewards and promotions, gamified elements (points/rewards tracking).
+- Support for image cropping (UCrop activity integration) and various product/detail screens.
+- Local data storage and standard Android app architecture (Gradle-based build).
 
 Quick start (Android)
-1. Open the Android project in Android Studio.
-2. Ensure you have JDK 11 and the Android SDK installed.
-3. If Firebase is used, create a Firebase project and place `google-services.json` into the Android app module (usually `app/`).
+1. Open the Android project in Android Studio (open the repository or the `app/` module).
+2. Ensure you have JDK 11 (or the version the project requires) and the Android SDK installed.
+3. If Firebase or other services are used, add the appropriate configuration files (for example `google-services.json`) into the app module.
 4. Build and run on an emulator or physical device.
 
 Common Gradle commands
 ```bash
-# From the Android project root (if a Gradle wrapper is present):
+# From the repository root (Gradle wrapper is present):
 ./gradlew assembleDebug
 ./gradlew test
 # For instrumentation tests (requires device/emulator):
@@ -71,21 +72,16 @@ Common Gradle commands
 
 Privacy & security note
 - Do not commit production Firebase credentials, signing keys, or other secrets to the repository.
-- Ensure notification access is explained to users before enabling any bank-notification parsing features.
-- Sensitive data should be handled and stored securely; consider encrypted storage for preferences and migrate plain-text passwords to Firebase Authentication.
+- Explain notification access to users before enabling any parsing of notifications.
+- Handle sensitive data securely; consider encrypted storage for preferences and use proper authentication for user accounts.
 
 ---
 
 ## How to locate each project in this repository
 - Website: look for `index.html`, `styles/`, and `scripts/` at the repository root.
-- Android app: search for `AndroidManifest.xml`, `build.gradle(.kts)`, or an `app/src/main/` directory. If you prefer, run a quick search in your local clone:
+- Android app: open the `app/` directory — it contains `build.gradle.kts`, `src/main/AndroidManifest.xml`, and the `res/` resources (including `strings.xml` where the app name is defined).
 
-```bash
-# From the repo root (Unix-like systems)
-find . -name AndroidManifest.xml -o -name build.gradle -o -name settings.gradle
-```
-
-If you're still unsure where the Android module is located, tell me and I will search the repository and point to the exact path.
+If you're still unsure where the Android module is located, tell me and I will point to the exact path or open the app's README if you want one created.
 
 ---
 
@@ -112,6 +108,6 @@ If you encounter any issues or have questions, please open an issue on the repos
 
 If you'd like, I can also:
 - Move the Android app into a dedicated top-level folder if files are mixed between the website and Android project.
-- Create or expand a dedicated README inside the Android project's directory with the full PennyWise README content.
+- Create or expand a dedicated README inside the Android project's `app/` directory with the full Grind Coffee Co. README content (screenshots, build notes, package name, troubleshooting).
 
 Happy coding and happy grinding!
