@@ -1,45 +1,27 @@
 # The Grind
 
-A modern, responsive website built with HTML, CSS, and JavaScript to help users stay focused and productive.
+This repository contains two distinct projects kept together for convenience:
 
-## 📋 Table of Contents
+1. The Grind — a responsive, productivity-focused website built with HTML, CSS, and JavaScript.
+2. PennyWise — an Android personal-finance application (Kotlin) bundled in this repository as a separate Android project/module.
 
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+This README provides a brief, separated overview and quick-start instructions for each project. For full, project-specific documentation, please check for a README inside each project's directory (for example `PennyWise2/README.md`, `app/README.md`, or a README inside a subdirectory). If you can't find a separate README for the Android app, the summary below includes the main steps to build and run it.
 
-## 🎯 Overview
+---
 
-**The Grind** is a productivity-focused website designed to help users manage their tasks, track progress, and maintain focus on their goals. Whether you're studying, working, or pursuing any challenging objective, The Grind provides the tools and interface you need to stay on track.
+## Project A — The Grind (Website)
 
-## ✨ Features
+A modern, responsive website to help users stay focused and productive.
 
-- **Clean, Intuitive Interface** – User-friendly design that focuses on productivity
-- **Responsive Design** – Works seamlessly across desktop, tablet, and mobile devices
-- **Task Management** – Organize and prioritize your tasks effectively
-- **Progress Tracking** – Monitor your productivity and achievements
-- **Modern Styling** – Professional CSS styling with smooth interactions
-- **Interactive Elements** – JavaScript-powered features for enhanced user experience
+Overview
+- Purpose: Task management, progress tracking, and focused productivity through a simple web interface.
+- Tech: HTML, CSS, JavaScript (static site)
 
-## 🛠️ Tech Stack
-
-This project is built with:
-
-- **HTML (93.1%)** – Semantic markup and structure
-- **CSS (5.4%)** – Styling and responsive layouts
-- **JavaScript (1.5%)** – Interactivity and dynamic features
-
-## 📁 Project Structure
-
+Project structure (website files at repository root):
 ```
 The-Grind/
-├── README.md          # Project documentation
-├── index.html         # Main landing page
+├── README.md          # This file (repository-level)
+├── index.html         # Main landing page for The Grind website
 ├── styles/
 │   └── style.css      # Main stylesheet
 ├── scripts/
@@ -47,66 +29,89 @@ The-Grind/
 └── assets/            # Images and other assets
 ```
 
-## 🚀 Getting Started
+Quick start (website)
+1. Open `index.html` in a web browser.
+2. Or run a local server from the repository root:
+```bash
+python -m http.server 8000
+# then visit http://localhost:8000
+```
 
-### Prerequisites
-
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-- A text editor (VS Code, Sublime Text, etc.)
-- Git (optional, for cloning the repository)
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Amogelang-Dev/The-Grind.git
-   cd The-Grind
-   ```
-
-2. **Open the website:**
-   - Navigate to the project directory
-   - Open `index.html` in your web browser
-   - Or use a local server:
-     ```bash
-     python -m http.server 8000
-     # Then visit http://localhost:8000
-     ```
-
-## 💡 Usage
-
-1. **Access the Website** – Open the website in your browser
-2. **Explore Features** – Navigate through the interface to discover productivity tools
-3. **Manage Tasks** – Create, organize, and track your tasks
-4. **Track Progress** – Monitor your productivity metrics
-5. **Stay Focused** – Use the platform to maintain focus on your goals
-
-## 🤝 Contributing
-
-Contributions are welcome! To contribute to The Grind:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-Please ensure your code follows the existing style and structure.
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE) (or update with your preferred license).
-
-## 👤 Author
-
-**ST10355816 - Amogelang Matlhaga** <br >
-**ST10437711 - Keabetswe Masole**
+Notes
+- The website is a static front-end project — no build tooling is required unless added later.
+- Use a modern browser (Chrome, Firefox, Safari, Edge) when testing responsive behavior.
 
 ---
 
-## 📞 Support
+## Project B — PennyWise (Android App)
 
-If you encounter any issues or have questions, please open an issue on the [GitHub repository](https://github.com/Amogelang-Dev/The-Grind/issues).
+A gamified personal-finance Android application written in Kotlin. The Android project lives inside this repository as a separate module or subfolder — look for directories such as `PennyWise2/`, `PennyWise/`, or an `app/` module containing `build.gradle` and `AndroidManifest.xml`.
+
+Summary of features
+- Automated and manual expense recording (notification parsing for supported banks).
+- Budget configuration and validation (monthly income, min/max spending goals).
+- Local storage via SQLite and optional Firebase Firestore sync for selected progress data.
+- Reports and charts (category totals, date-range filtering, downloadable statements).
+- Gamified progression with XP and milestones, receipts support, and dark mode.
+
+Quick start (Android)
+1. Open the Android project in Android Studio.
+2. Ensure you have JDK 11 and the Android SDK installed.
+3. If Firebase is used, create a Firebase project and place `google-services.json` into the Android app module (usually `app/`).
+4. Build and run on an emulator or physical device.
+
+Common Gradle commands
+```bash
+# From the Android project root (if a Gradle wrapper is present):
+./gradlew assembleDebug
+./gradlew test
+# For instrumentation tests (requires device/emulator):
+./gradlew connectedAndroidTest
+```
+
+Privacy & security note
+- Do not commit production Firebase credentials, signing keys, or other secrets to the repository.
+- Ensure notification access is explained to users before enabling any bank-notification parsing features.
+- Sensitive data should be handled and stored securely; consider encrypted storage for preferences and migrate plain-text passwords to Firebase Authentication.
 
 ---
 
-**Happy Grinding!** 💪 Stay productive, stay focused, and keep grinding toward your goals.
+## How to locate each project in this repository
+- Website: look for `index.html`, `styles/`, and `scripts/` at the repository root.
+- Android app: search for `AndroidManifest.xml`, `build.gradle(.kts)`, or an `app/src/main/` directory. If you prefer, run a quick search in your local clone:
+
+```bash
+# From the repo root (Unix-like systems)
+find . -name AndroidManifest.xml -o -name build.gradle -o -name settings.gradle
+```
+
+If you're still unsure where the Android module is located, tell me and I will search the repository and point to the exact path.
+
+---
+
+## Contributing
+Contributions are welcome — please indicate in your issue and pull request whether the change targets the website, the Android app, or both.
+
+Suggested workflow
+1. Create an issue describing the feature or bug.
+2. Create a branch (e.g., `feature/...`, `bugfix/...`, `docs/...`).
+3. Make changes and run project-specific checks (open `index.html` or run Gradle for Android).
+4. Commit, push, and open a pull request describing which project the change affects.
+
+---
+
+## License
+This repository is licensed under the MIT License. See the `LICENSE` file for details.
+
+---
+
+## Support
+If you encounter any issues or have questions, please open an issue on the repository: https://github.com/Amogelang-Dev/The-Grind/issues
+
+---
+
+If you'd like, I can also:
+- Move the Android app into a dedicated top-level folder if files are mixed between the website and Android project.
+- Create or expand a dedicated README inside the Android project's directory with the full PennyWise README content.
+
+Happy coding and happy grinding!
